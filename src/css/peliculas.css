@@ -1,0 +1,45 @@
+/* Estilos generales */
+body {
+    font-family: "Nunito", sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estilos para el tema oscuro */
+.dark {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark header {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark nav a,
+.dark .theme-toggle {
+    color: #fff;
+}
+
+/* Estilos para el tema claro */
+.light {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.light header {
+    background-color: #fff;
+    color: #333;
+}
+
+.light nav a {
+    color: #333;
+}
+
+.light .theme-toggle {
+    background-color: #f4f4f4; /* Gris claro de la página */
+    color: #333;
+}
