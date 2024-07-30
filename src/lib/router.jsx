@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Importar páginas
 import Home from '../pages/Home';
-import Catalogo from '../pages/Catalogo';
+import Catalogo from '../pages/Catalogo'; 
 
 // Importar páginas especiales
 import Layout from "../Layout";
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
         element: <Catalogo />
       },
       {
+        path: 'catalogo',
+        element: <Catalogo />
+      },
+      {
         path: '*',
         element: <ErrorPage />
       }
@@ -31,3 +35,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+

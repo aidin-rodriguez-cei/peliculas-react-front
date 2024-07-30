@@ -1,20 +1,19 @@
-import { Outlet, Link } from "react-router-dom";
-import { useContext } from 'react';
-import { ModoOscuroContext, ModoOscuroProvider } from './context/ModoOscuroContext';
+import React from 'react';
+import { Outlet, Link } from 'react-router-dom';
+import { ModoOscuroProvider, useModoOscuro } from './context/ModoOscuroContext';
 import './css/peliculas.css';
 
-// Componente Navbar
 const Navbar = () => {
   return (
     <nav>
       <Link to="/">Inicio</Link>
+      <Link to="/Catalogo">Películas</Link>
     </nav>
   );
 };
 
-// Componente Layout
 const Layout = () => {
-  const { tema, toggleTema } = useContext(ModoOscuroContext);
+  const { tema, toggleTema } = useModoOscuro();
 
   return (
     <div className={tema}>
@@ -35,8 +34,9 @@ const Layout = () => {
 
 const AppLayout = () => (
   <ModoOscuroProvider>
-      <Layout />
+    <Layout />
   </ModoOscuroProvider>
 );
 
 export default AppLayout;
+

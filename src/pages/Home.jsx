@@ -1,30 +1,31 @@
-import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '../css/peliculas.css';
 
 const Home = () => {
-    const [usuarios, setUsuarios] = useState([]);
-    const [user, setUser] = useState("");
-    const [pass, setPass] = useState("");
-    const navigate = useNavigate();
+  const [usuarios, setUsuarios] = useState([]);
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getUsuarios('/backend/API/datos.json');
+    getUsuarios('/backend/API/datos.json'); 
   }, []);
 
   const getUsuarios = async (url) => {
     try {
       const respuesta = await fetch(url);
       const objeto = await respuesta.json();
-      setProducts(objeto.usuarios);
+      console.log("Usuarios cargados:", objeto.usuarios);
+      setUsuarios(objeto.usuarios);
     } catch (e) {
       console.log("Error:", e);
     }
-  }
+  };
 
   const handleLogin = () => {
     const usuario = usuarios.find(u => u.nombre === user && u.clave === pass);
+    console.log("Intento de inicio de sesión:", { user, pass, usuario });
     if (usuario) {
       navigate(`/catalogo/${usuario.id}`);
     } else {
@@ -33,8 +34,8 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1 className="titulo-inicial">Tus peliculas Favoritas</h1>
+    <div className="home-container">
+      <h1 className="titulo-inicial">Tus películas favoritas</h1>
       <div className="ingreso-container">
         <input
           type="text"
@@ -55,3 +56,7 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
