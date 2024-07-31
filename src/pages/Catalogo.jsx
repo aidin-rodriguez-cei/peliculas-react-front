@@ -1,59 +1,46 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom'; 
+import { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { IngresoContext } from '../context/IngresoContext';
 import '../css/peliculas.css';
 
 const Catalogo = () => {
-  const { userId } = useParams();
+  const { id } = useParams();
+  const { ingreso } = useContext(IngresoContext);
   const [peliculas, setPeliculas] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getPeliculas('/backend/API/datos.json');
-  }, []);
+    if (!ingreso) {
+      navigate('/');
+      return;
+    }
+    getPeliculas(id);
+  }, [id, ingreso, navigate]);
 
-  const getPeliculas = async (url) => {
+  const getPeliculas = async (userId) => {
     try {
-      const respuesta = await fetch(url);
+      const respuesta = await fetch(`/backend/API/peliculas_${userId}.json`);
       const objeto = await respuesta.json();
-      console.log("Películas cargadas:", objeto.peliculas);
-      const peliculasUsuario = objeto.peliculas.filter(pelicula => pelicula.idUsuario === userId);
-      console.log("Películas del usuario:", peliculasUsuario);
-      setPeliculas(peliculasUsuario);
+      setPeliculas(objeto.peliculas);
     } catch (e) {
       console.log("Error:", e);
     }
   };
 
-  const toggleChecked = (id) => {
-    setPeliculas(peliculas.map(pelicula =>
-      pelicula.id === id ? { ...pelicula, checked: !pelicula.checked } : pelicula
-    ));
-  };
-
   return (
-    <div>
-      <div className="catalog-container">
-        {peliculas.length > 0 ? peliculas.map((pelicula) => (
-          <article key={pelicula.id} className="peliculas">
-            <img src={pelicula.imagen} alt={pelicula.titulo} />
-            <h2>{pelicula.titulo}</h2>
-            <p>Director: {pelicula.director}</p>
-            <p>Año: {pelicula.anio}</p>
-            <div className="checkbox-container">
-              <p>¿Ya viste esta película?</p>
-              <input
-                type="checkbox"
-                checked={pelicula.checked}
-                onChange={() => toggleChecked(pelicula.id)}
-              />
-            </div>
-          </article>
-        )) : <p>Ingresa tu usuario y contraseña para que disfrutes de tus peliculas favoritas</p>}
-      </div>
+    <div className="catalog-container">
+      {peliculas.map(pelicula => (
+        <div key={pelicula.id} className="peliculas">
+          <img src={pelicula.imagen} alt={pelicula.titulo} />
+          <h2>{pelicula.titulo}</h2>
+          <p>{pelicula.descripcion}</p>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default Catalogo;
+export default Catalogo
 
 
 

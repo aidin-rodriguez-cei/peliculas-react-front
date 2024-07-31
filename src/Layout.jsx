@@ -1,13 +1,28 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { ModoOscuroProvider, useModoOscuro } from './context/ModoOscuroContext';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useModoOscuro } from './context/ModoOscuroContext';
+import { useContext } from 'react';
+import { IngresoContext } from './context/IngresoContext';
 import './css/peliculas.css';
 
 const Navbar = () => {
+  const { ingreso, logout } = useContext(IngresoContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <nav>
       <Link to="/">Inicio</Link>
-      <Link to="/Catalogo">Películas</Link>
+      {ingreso ? (
+        <>
+          <Link to={`/catalogo/${ingreso.id}`}>Películas</Link>
+          <button onClick={handleLogout}>Cerrar Sesión</button>
+        </>
+      ) : null}
     </nav>
   );
 };
@@ -32,11 +47,7 @@ const Layout = () => {
   );
 };
 
-const AppLayout = () => (
-  <ModoOscuroProvider>
-    <Layout />
-  </ModoOscuroProvider>
-);
+export default Layout;
 
-export default AppLayout;
+
 
